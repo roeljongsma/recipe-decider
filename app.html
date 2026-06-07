@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Decider – My Recipes</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🍽️ Recipe Decider</h1>
+    <div class="topbar-right">
+      <span id="user-email"></span>
+      <button id="logout-btn" class="btn-secondary">Logout</button>
+    </div>
+  </header>
+
+  <main class="container wide">
+
+    <!-- ADD RECIPE FORM -->
+    <section class="card">
+      <h2>➕ Add a new recipe</h2>
+      <form id="recipe-form">
+        <label>Title
+          <input type="text" id="recipe-title" required placeholder="e.g. Spaghetti Bolognese" />
+        </label>
+
+        <label>For how many people
+          <input type="number" id="recipe-servings" min="1" value="2" required />
+        </label>
+
+        <label>Paste ingredients (one per line)
+          <textarea id="ingredients-paste" rows="6"
+            placeholder="e.g.
+500g pasta
+2 cloves garlic
+1 onion
+olive oil
+salt and pepper"></textarea>
+        </label>
+        <button type="button" id="parse-btn" class="btn-secondary">Parse ingredients ↓</button>
+
+        <div id="parsed-ingredients"></div>
+
+        <label>Steps to cook
+          <textarea id="recipe-steps" rows="6" placeholder="Step 1...&#10;Step 2..."></textarea>
+        </label>
+
+        <button type="submit">💾 Save recipe</button>
+        <p id="recipe-message"></p>
+      </form>
+    </section>
+
+    <!-- RECIPE LIST -->
+    <section class="card">
+      <h2>📚 My recipes</h2>
+      <div id="recipes-list">Loading…</div>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/recipes.js"></script>
+</body>
+</html>
