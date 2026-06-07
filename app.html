@@ -8,64 +8,61 @@
 </head>
 <body>
   <header class="topbar">
-    <h1>🍽️ Recipe Decider</h1>
+    <h1 data-i18n="app.title">🍽️ Recipe Decider</h1>
     <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="en">🇬🇧</button>
+        <button class="lang-btn" data-lang="nl">🇳🇱</button>
+      </div>
       <span id="user-email"></span>
-      <button id="logout-btn" class="btn-secondary">Logout</button>
+      <button id="logout-btn" class="btn-secondary" data-i18n="btn.logout">Logout</button>
     </div>
   </header>
 
-<nav class="subnav">
-  <a href="app.html" class="active">📚 My recipes</a>
-  <a href="decide.html">🎲 Decide what to eat</a>
-</nav>
+  <nav class="subnav">
+    <a href="app.html" class="active" data-i18n="nav.recipes">📚 My recipes</a>
+    <a href="decide.html" data-i18n="nav.decide">🎲 Decide what to eat</a>
+  </nav>
 
-<main class="container wide">
-  
-    <!-- ADD RECIPE FORM -->
+  <main class="container wide">
+
     <section class="card">
-      <h2>➕ Add a new recipe</h2>
+      <h2 data-i18n="recipe.addHeading">➕ Add a new recipe</h2>
       <form id="recipe-form">
-        <label>Title
-          <input type="text" id="recipe-title" required placeholder="e.g. Spaghetti Bolognese" />
+        <label><span data-i18n="recipe.title">Title</span>
+          <input type="text" id="recipe-title" required data-i18n-placeholder="recipe.titlePlaceholder" placeholder="e.g. Spaghetti Bolognese" />
         </label>
 
-        <label>For how many people
+        <label><span data-i18n="recipe.servings">For how many people</span>
           <input type="number" id="recipe-servings" min="1" value="2" required />
         </label>
 
-        <label>Paste ingredients (one per line)
-          <textarea id="ingredients-paste" rows="6"
-            placeholder="e.g.
-500g pasta
-2 cloves garlic
-1 onion
-olive oil
-salt and pepper"></textarea>
+        <label><span data-i18n="recipe.pasteLabel">Paste ingredients (one per line)</span>
+          <textarea id="ingredients-paste" rows="6" data-i18n-placeholder="recipe.pastePlaceholder"></textarea>
         </label>
-        <button type="button" id="parse-btn" class="btn-secondary">Parse ingredients ↓</button>
+        <button type="button" id="parse-btn" class="btn-secondary" data-i18n="recipe.parseBtn">Parse ingredients ↓</button>
 
         <div id="parsed-ingredients"></div>
 
-        <label>Steps to cook
-          <textarea id="recipe-steps" rows="6" placeholder="Step 1...&#10;Step 2..."></textarea>
+        <label><span data-i18n="recipe.steps">Steps to cook</span>
+          <textarea id="recipe-steps" rows="6" data-i18n-placeholder="recipe.stepsPlaceholder"></textarea>
         </label>
 
-        <button type="submit">💾 Save recipe</button>
+        <button type="submit" data-i18n="recipe.save">💾 Save recipe</button>
         <p id="recipe-message"></p>
       </form>
     </section>
 
-    <!-- RECIPE LIST -->
     <section class="card">
-      <h2>📚 My recipes</h2>
-      <div id="recipes-list">Loading…</div>
+      <h2 data-i18n="list.heading">📚 My recipes</h2>
+      <div id="recipes-list" data-i18n="list.loading">Loading…</div>
     </section>
 
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
   <script src="js/recipes.js"></script>
 </body>
