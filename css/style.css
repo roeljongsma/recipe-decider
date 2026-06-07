@@ -129,3 +129,102 @@ button:hover { background: #246138; }
   font-family: inherit;
   font-size: 0.95rem;
 }
+/* SUBNAV */
+.subnav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+.subnav a {
+  text-decoration: none;
+  color: #555;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+.subnav a:hover { background: #f0f0ec; }
+.subnav a.active { background: #2d7a46; color: white; }
+
+/* DECIDE PAGE */
+.decide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.decide-actions { display: flex; gap: 0.5rem; }
+
+.filter-group { margin: 1rem 0; }
+.filter-group h3 {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0 0 0.4rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.25rem;
+}
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  background: #f0f0ec;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s;
+}
+.chip input { display: none; }
+.chip:hover { background: #e6e6e1; }
+.chip-on {
+  background: #2d7a46;
+  color: white;
+  border-color: #2d7a46;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  color: #666;
+  font-size: 1.2rem;
+  padding: 0.4rem 0.6rem;
+}
+.modal-close:hover { background: #f0f0ec; color: #b00; }
+.random-title {
+  font-size: 1.6rem;
+  color: #2d7a46;
+  margin: 0.5rem 0;
+}
