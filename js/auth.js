@@ -1,3 +1,11 @@
+// If already logged in, skip login page
+(async () => {
+  const { data } = await supabaseClient.auth.getSession();
+  if (data.session) {
+    window.location.href = 'app.html';
+  }
+})();
+
 const loginBtn = document.getElementById('login-btn');
 const signupBtn = document.getElementById('signup-btn');
 const emailInput = document.getElementById('email');
@@ -17,7 +25,7 @@ signupBtn.addEventListener('click', async () => {
     return;
   }
   showMessage('Signing up…', false);
-  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+  const { error } = await supabaseClient.auth.signUp({ email, password });
   if (error) {
     showMessage(error.message);
   } else {
@@ -33,11 +41,10 @@ loginBtn.addEventListener('click', async () => {
     return;
   }
   showMessage('Logging in…', false);
-  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) {
     showMessage(error.message);
   } else {
-    showMessage('Logged in! (Recipe page coming soon.)', false);
-    console.log('User:', data.user);
+    window.location.href = 'app.html';
   }
 });
