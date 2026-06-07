@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Decider – Decide what to eat</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🍽️ Recipe Decider</h1>
+    <div class="topbar-right">
+      <span id="user-email"></span>
+      <button id="logout-btn" class="btn-secondary">Logout</button>
+    </div>
+  </header>
+
+  <nav class="subnav">
+    <a href="app.html">📚 My recipes</a>
+    <a href="decide.html" class="active">🎲 Decide what to eat</a>
+  </nav>
+
+  <main class="container wide">
+
+    <section class="card">
+      <div class="decide-header">
+        <h2>What's for dinner?</h2>
+        <div class="decide-actions">
+          <button id="random-btn">🎲 Surprise me!</button>
+          <button id="clear-filters-btn" class="btn-secondary">Clear filters</button>
+        </div>
+      </div>
+      <p class="hint">Select ingredients you have (or want to use). Recipes that contain <em>all</em> selected ingredients will be shown.</p>
+      <div id="filters">Loading ingredients…</div>
+    </section>
+
+    <section class="card">
+      <h2>Matching recipes (<span id="match-count">0</span>)</h2>
+      <div id="results"></div>
+    </section>
+
+    <!-- Random recipe modal -->
+    <div id="random-modal" class="modal hidden">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">✕</button>
+        <div id="random-recipe-content"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/decide.js"></script>
+</body>
+</html>
