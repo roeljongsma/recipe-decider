@@ -8,26 +8,15 @@ const parsedDiv = document.getElementById('parsed-ingredients');
 const messageEl = document.getElementById('recipe-message');
 const recipesList = document.getElementById('recipes-list');
 
-let parsedIngredients = []; // [{ amount, unit, name }]
+let parsedIngredients = [];
 
-// ===== PARSE PASTED LINES =====
-// Tries to extract: amount, unit, name from each line.
 function parseLine(line) {
   line = line.trim();
   if (!line) return null;
-
-  // Regex: optional amount (number or fraction), optional unit, then name
-  // Examples it handles:
-  //   "500g pasta"        -> 500, g, pasta
-  //   "2 cloves garlic"   -> 2, cloves, garlic
-  //   "1 onion"           -> 1, '', onion
-  //   "olive oil"         -> '', '', olive oil
-  //   "1/2 tsp salt"      -> 1/2, tsp, salt
   const match = line.match(/^([\d./]+)\s*([a-zA-Z]*)\s+(.*)$/);
   if (match) {
     const [, amount, unit, rest] = match;
-    // If "unit" looks like a real word (3+ letters and not a known unit), it might be part of the name
-    const knownUnits = ['g','kg','ml','l','tsp','tbsp','cup','cups','clove','cloves','slice','slices','piece','pieces','can','cans','pinch','oz','lb'];
+    const knownUnits = ['g','kg','ml','l','tsp','tbsp','cup','cups','clove','cloves','slice','slices','piece','pieces','can','cans','pinch','oz','lb','teentje','teentjes','snufje','plak','plakken','blik','blikken'];
     if (knownUnits.includes(unit.toLowerCase())) {
       return { amount, unit, name: rest.trim() };
     } else {
@@ -45,12 +34,17 @@ parseBtn.addEventListener('click', () => {
 
 function renderParsed() {
   if (parsedIngredients.length === 0) {
-    parsedDiv.innerHTML = '<p class="hint">Paste some ingredients above and click Parse.</p>';
+    parsedDiv.innerHTML = `<p class="hint">${t('parsed.empty')}</p>`;
     return;
   }
   parsedDiv.innerHTML = `
     <table class="ingredients-table">
-      <thead><tr><th>Amount</th><th>Unit</th><th>Name</th><th></th></tr></thead>
+      <thead><tr>
+        <th>${t('parsed.amount')}</th>
+        <th>${t('parsed.unit')}</th>
+        <th>${t('parsed.name')}</th>
+        <th></th>
+      </tr></thead>
       <tbody>
         ${parsedIngredients.map((ing, i) => `
           <tr>
@@ -62,10 +56,9 @@ function renderParsed() {
         `).join('')}
       </tbody>
     </table>
-    <button type="button" class="btn-secondary" id="add-ingredient-btn">+ Add ingredient</button>
+    <button type="button" class="btn-secondary" id="add-ingredient-btn">${t('parsed.addIngredient')}</button>
   `;
 
-  // Wire up edits
   parsedDiv.querySelectorAll('input[data-i]').forEach(inp => {
     inp.addEventListener('input', e => {
       const i = +e.target.dataset.i;
@@ -73,7 +66,6 @@ function renderParsed() {
       parsedIngredients[i][f] = e.target.value;
     });
   });
-  // Remove buttons
   parsedDiv.querySelectorAll('button[data-remove]').forEach(btn => {
     btn.addEventListener('click', e => {
       const i = +e.target.dataset.remove;
@@ -81,7 +73,6 @@ function renderParsed() {
       renderParsed();
     });
   });
-  // Add button
   document.getElementById('add-ingredient-btn').addEventListener('click', () => {
     parsedIngredients.push({ amount: '', unit: '', name: '' });
     renderParsed();
@@ -97,36 +88,31 @@ function showMessage(text, isError = true) {
   messageEl.style.color = isError ? '#b00' : '#2d7a46';
 }
 
-// ===== SAVE RECIPE =====
 recipeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = titleInput.value.trim();
   const servings = parseInt(servingsInput.value, 10);
   const steps = stepsInput.value.trim();
 
-if (!title) { showMessage('Please enter a title.'); return; }
+  if (!title) { showMessage(t('recipe.titleMissing')); return; }
 
-  // Validation: textarea has content but Parse wasn't clicked
   if (pasteArea.value.trim() !== '' && parsedIngredients.length === 0) {
-    showMessage('You have unparsed ingredients. Click "Parse ingredients ↓" first.');
+    showMessage(t('recipe.unparsed'));
     return;
   }
 
-  // Filter out blank ingredient rows
   const ingredientsToSave = parsedIngredients.filter(i => i.name && i.name.trim() !== '');
 
-  // Validation: a recipe must have at least one ingredient
   if (ingredientsToSave.length === 0) {
-    showMessage('Please add at least one ingredient before saving.');
+    showMessage(t('recipe.noIngredients'));
     return;
   }
 
-  showMessage('Saving…', false);
+  showMessage(t('recipe.saving'), false);
 
   const { data: userData } = await supabaseClient.auth.getUser();
   const userId = userData.user.id;
 
-  // 1. Insert recipe
   const { data: recipeData, error: recipeError } = await supabaseClient
     .from('recipes')
     .insert({ user_id: userId, title, servings, steps })
@@ -136,12 +122,10 @@ if (!title) { showMessage('Please enter a title.'); return; }
   if (recipeError) { showMessage(recipeError.message); return; }
   const recipeId = recipeData.id;
 
-  // 2. For each ingredient: upsert into ingredients table, then insert into recipe_ingredients
   for (let i = 0; i < ingredientsToSave.length; i++) {
     const ing = ingredientsToSave[i];
     const name = ing.name.trim().toLowerCase();
 
-    // Try to find existing ingredient
     let { data: existing } = await supabaseClient
       .from('ingredients')
       .select('id')
@@ -170,7 +154,7 @@ if (!title) { showMessage('Please enter a title.'); return; }
     });
   }
 
-  showMessage('Recipe saved! ✅', false);
+  showMessage(t('recipe.saved'), false);
   recipeForm.reset();
   servingsInput.value = 2;
   parsedIngredients = [];
@@ -178,9 +162,8 @@ if (!title) { showMessage('Please enter a title.'); return; }
   loadRecipes();
 });
 
-// ===== LOAD & DISPLAY RECIPES =====
 async function loadRecipes() {
-  recipesList.innerHTML = 'Loading…';
+  recipesList.innerHTML = t('list.loading');
 
   const { data: recipes, error } = await supabaseClient
     .from('recipes')
@@ -193,9 +176,9 @@ async function loadRecipes() {
     `)
     .order('created_at', { ascending: false });
 
-  if (error) { recipesList.innerHTML = 'Error loading recipes: ' + error.message; return; }
+  if (error) { recipesList.innerHTML = 'Error: ' + error.message; return; }
   if (!recipes || recipes.length === 0) {
-    recipesList.innerHTML = '<p class="hint">No recipes yet. Add your first one above!</p>';
+    recipesList.innerHTML = `<p class="hint">${t('list.empty')}</p>`;
     return;
   }
 
@@ -210,22 +193,21 @@ async function loadRecipes() {
       <article class="recipe">
         <div class="recipe-header">
           <h3>${escapeHtml(r.title)}</h3>
-          <button class="btn-tiny" data-delete="${r.id}">🗑️ Delete</button>
+          <button class="btn-tiny" data-delete="${r.id}">${t('list.delete')}</button>
         </div>
-        <p class="recipe-meta">Serves ${r.servings || '?'}</p>
+        <p class="recipe-meta">${t('list.serves')} ${r.servings || '?'}</p>
         <details>
-          <summary>Ingredients (${(r.recipe_ingredients || []).length})</summary>
+          <summary>${t('list.ingredients')} (${(r.recipe_ingredients || []).length})</summary>
           <ul>${ings}</ul>
         </details>
-        ${r.steps ? `<details><summary>Steps</summary><pre class="steps">${escapeHtml(r.steps)}</pre></details>` : ''}
+        ${r.steps ? `<details><summary>${t('list.stepsLabel')}</summary><pre class="steps">${escapeHtml(r.steps)}</pre></details>` : ''}
       </article>
     `;
   }).join('');
 
-  // Wire delete buttons
   recipesList.querySelectorAll('button[data-delete]').forEach(btn => {
     btn.addEventListener('click', async () => {
-      if (!confirm('Delete this recipe?')) return;
+      if (!confirm(t('list.confirmDelete'))) return;
       const id = btn.dataset.delete;
       const { error } = await supabaseClient.from('recipes').delete().eq('id', id);
       if (error) alert('Error: ' + error.message);
@@ -234,5 +216,10 @@ async function loadRecipes() {
   });
 }
 
-// Wait a moment for the session check in app.js, then load
+// Re-render dynamic content when language changes
+window.addEventListener('langChanged', () => {
+  if (parsedIngredients.length > 0 || parsedDiv.innerHTML) renderParsed();
+  loadRecipes();
+});
+
 setTimeout(loadRecipes, 300);
