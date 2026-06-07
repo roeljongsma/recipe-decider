@@ -261,3 +261,8 @@ button:hover { background: #246138; }
   background: #2d7a46;
   color: white;
 }
+.lang-btn img {
+  vertical-align: middle;
+  border-radius: 2px;
+  display: inline-block;
+}
