@@ -8,38 +8,41 @@
 </head>
 <body>
   <header class="topbar">
-    <h1>🍽️ Recipe Decider</h1>
+    <h1 data-i18n="app.title">🍽️ Recipe Decider</h1>
     <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn" data-lang="en">🇬🇧</button>
+        <button class="lang-btn" data-lang="nl">🇳🇱</button>
+      </div>
       <span id="user-email"></span>
-      <button id="logout-btn" class="btn-secondary">Logout</button>
+      <button id="logout-btn" class="btn-secondary" data-i18n="btn.logout">Logout</button>
     </div>
   </header>
 
   <nav class="subnav">
-    <a href="app.html">📚 My recipes</a>
-    <a href="decide.html" class="active">🎲 Decide what to eat</a>
+    <a href="app.html" data-i18n="nav.recipes">📚 My recipes</a>
+    <a href="decide.html" class="active" data-i18n="nav.decide">🎲 Decide what to eat</a>
   </nav>
 
   <main class="container wide">
 
     <section class="card">
       <div class="decide-header">
-        <h2>What's for dinner?</h2>
+        <h2 data-i18n="decide.heading">What's for dinner?</h2>
         <div class="decide-actions">
-          <button id="random-btn">🎲 Surprise me!</button>
-          <button id="clear-filters-btn" class="btn-secondary">Clear filters</button>
+          <button id="random-btn" data-i18n="decide.surpriseBtn">🎲 Surprise me!</button>
+          <button id="clear-filters-btn" class="btn-secondary" data-i18n="decide.clearFilters">Clear filters</button>
         </div>
       </div>
-      <p class="hint">Select ingredients you have (or want to use). Recipes that contain <em>all</em> selected ingredients will be shown.</p>
-      <div id="filters">Loading ingredients…</div>
+      <p class="hint" data-i18n="decide.hint">Select ingredients...</p>
+      <div id="filters" data-i18n="decide.loadingIngredients">Loading ingredients…</div>
     </section>
 
     <section class="card">
-      <h2>Matching recipes (<span id="match-count">0</span>)</h2>
+      <h2><span data-i18n="decide.matchingHeading">Matching recipes</span> (<span id="match-count">0</span>)</h2>
       <div id="results"></div>
     </section>
 
-    <!-- Random recipe modal -->
     <div id="random-modal" class="modal hidden">
       <div class="modal-content">
         <button id="modal-close" class="modal-close">✕</button>
@@ -51,6 +54,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
   <script src="js/decide.js"></script>
 </body>
