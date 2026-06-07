@@ -228,3 +228,36 @@ button:hover { background: #246138; }
   color: #2d7a46;
   margin: 0.5rem 0;
 }
+/* LANGUAGE SWITCHER */
+.lang-switch {
+  display: inline-flex;
+  gap: 0.25rem;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 0.15rem;
+}
+.lang-switch-top {
+  background: #f0f0ec;
+  margin-bottom: 1rem;
+  width: fit-content;
+}
+.lang-btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: inherit;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.lang-btn:hover { background: rgba(255,255,255,0.2); }
+.lang-switch-top .lang-btn:hover { background: rgba(0,0,0,0.05); }
+.lang-btn.active {
+  background: white;
+  color: #2d7a46;
+  font-weight: 600;
+}
+.lang-switch-top .lang-btn.active {
+  background: #2d7a46;
+  color: white;
+}
