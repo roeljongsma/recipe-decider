@@ -8,17 +8,22 @@
 </head>
 <body>
   <main class="container">
-    <h1>🍽️ Recipe Decider</h1>
-    <p>Your personal recipe collection & meal decider.</p>
+    <div class="lang-switch lang-switch-top">
+      <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+      <button class="lang-btn" data-lang="nl">🇳🇱 NL</button>
+    </div>
+
+    <h1 data-i18n="app.title">🍽️ Recipe Decider</h1>
+    <p data-i18n="app.tagline">Your personal recipe collection & meal decider.</p>
 
     <section id="auth-section">
-      <h2>Login or Sign up</h2>
+      <h2 data-i18n="auth.heading">Login or Sign up</h2>
       <form id="auth-form">
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
+        <input type="email" id="email" required data-i18n-placeholder="auth.email" placeholder="Email" />
+        <input type="password" id="password" required data-i18n-placeholder="auth.password" placeholder="Password" />
         <div class="button-row">
-          <button type="button" id="login-btn">Login</button>
-          <button type="button" id="signup-btn">Sign up</button>
+          <button type="button" id="login-btn" data-i18n="auth.login">Login</button>
+          <button type="button" id="signup-btn" data-i18n="auth.signup">Sign up</button>
         </div>
         <p id="auth-message"></p>
       </form>
@@ -27,6 +32,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/auth.js"></script>
 </body>
 </html>
