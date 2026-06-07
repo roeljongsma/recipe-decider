@@ -104,9 +104,22 @@ recipeForm.addEventListener('submit', async (e) => {
   const servings = parseInt(servingsInput.value, 10);
   const steps = stepsInput.value.trim();
 
-  if (!title) { showMessage('Please enter a title.'); return; }
+if (!title) { showMessage('Please enter a title.'); return; }
+
+  // Validation: textarea has content but Parse wasn't clicked
+  if (pasteArea.value.trim() !== '' && parsedIngredients.length === 0) {
+    showMessage('You have unparsed ingredients. Click "Parse ingredients ↓" first.');
+    return;
+  }
+
   // Filter out blank ingredient rows
   const ingredientsToSave = parsedIngredients.filter(i => i.name && i.name.trim() !== '');
+
+  // Validation: a recipe must have at least one ingredient
+  if (ingredientsToSave.length === 0) {
+    showMessage('Please add at least one ingredient before saving.');
+    return;
+  }
 
   showMessage('Saving…', false);
 
