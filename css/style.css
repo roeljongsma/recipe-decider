@@ -755,7 +755,8 @@ button:active { transform: translateY(0); }
   border: 2px solid var(--c-border);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.15s;
+  /* Only animate properties that don't cause layout shifts */
+  transition: background-color 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 .picker-card:hover {
   border-color: var(--c-secondary);
@@ -765,6 +766,7 @@ button:active { transform: translateY(0); }
 .picker-on {
   background: linear-gradient(135deg, #fff5cc 0%, #ffe8a3 100%);
   border-color: var(--c-accent-3);
+}
 }
 .picker-info {
   display: flex;
