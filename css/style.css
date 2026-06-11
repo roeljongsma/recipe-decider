@@ -56,9 +56,9 @@ h1, h2, h3, h4 {
   margin-top: 0;
   letter-spacing: -0.01em;
 }
-h1 { font-size: 1.6rem; }
-h2 { font-size: 1.35rem; }
-h3 { font-size: 1.1rem; }
+h1 { font-size: 1.85rem; }
+h2 { font-size: 1.55rem; }
+h3 { font-size: 1.2rem; }
 
 a {
   color: var(--c-primary);
@@ -138,26 +138,26 @@ a:hover { text-decoration: underline; }
    CONTAINERS
    ===================== */
 .container {
-  max-width: 600px;
-  margin: 1.5rem auto;
-  padding: 1.5rem;
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 2rem 2.25rem;
   background: var(--c-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }
 .container.wide {
-  max-width: 900px;
+  max-width: 1280px;
   background: transparent;
   box-shadow: none;
-  padding: 1rem;
+  padding: 1.5rem 2rem;
 }
 
 .card {
   background: var(--c-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
 }
 
@@ -586,13 +586,13 @@ button:active { transform: translateY(0); }
 
   .container {
     margin: 0.75rem auto;
-    padding: 1.1rem;
+    padding: 1.25rem;
     border-radius: var(--radius-md);
   }
-  .container.wide { padding: 0.6rem; }
+  .container.wide { padding: 0.75rem; }
 
   .card {
-    padding: 1.1rem;
+    padding: 1.25rem;
     border-radius: var(--radius-md);
   }
 
@@ -657,4 +657,33 @@ button:active { transform: translateY(0); }
   50%  { content: '..'; }
   75%  { content: '...'; }
   100% { content: ''; }
+}
+
+/* =====================
+   RECIPE LIST GRID (wide screens)
+   ===================== */
+@media (min-width: 900px) {
+  #recipes-list,
+  #results {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  #recipes-list .recipe,
+  #results .recipe {
+    margin-bottom: 0;
+  }
+  /* "No recipes" hint should span both columns */
+  #recipes-list > p.hint,
+  #results > p.hint {
+    grid-column: 1 / -1;
+  }
+}
+
+/* On really wide screens, three columns */
+@media (min-width: 1400px) {
+  #recipes-list,
+  #results {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
