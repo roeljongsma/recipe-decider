@@ -21,8 +21,7 @@ async function loadData() {
   const { data, error } = await supabaseClient
     .from('recipes')
     .select(`
-      id, title, servings, steps, created_at,
-      recipe_ingredients (
+id, title, servings, steps, cook_time_minutes, created_at,      recipe_ingredients (
         amount, unit, position,
         ingredients ( id, name, category )
       )
@@ -112,8 +111,11 @@ function renderResults(recipes) {
       <div class="recipe-header">
         <h3>${escapeHtml(r.title)}</h3>
       </div>
-      <p class="recipe-meta">${t('list.serves')} ${r.servings || '?'} · ${(r.recipe_ingredients || []).length} ${t('list.ingredients').toLowerCase()}</p>
-      <details>
+<p class="recipe-meta">
+        ${t('list.serves')} ${r.servings || '?'}
+        ${r.cook_time_minutes ? ` · ⏱️ ${r.cook_time_minutes} ${t('list.minutes')}` : ''}
+        · ${(r.recipe_ingredients || []).length} ${t('list.ingredients').toLowerCase()}
+      </p>      <details>
         <summary>${t('list.ingredients')}</summary>
         <ul>
           ${(r.recipe_ingredients || [])
@@ -156,8 +158,10 @@ function showRandomRecipe(r) {
   randomContent.innerHTML = `
     <h2>${t('decide.tonight')}</h2>
     <h3 class="random-title">${escapeHtml(r.title)}</h3>
-    <p class="recipe-meta">${t('list.serves')} ${r.servings || '?'}</p>
-    <h4>${t('list.ingredients')}</h4>
+<p class="recipe-meta">
+      ${t('list.serves')} ${r.servings || '?'}
+      ${r.cook_time_minutes ? ` · ⏱️ ${r.cook_time_minutes} ${t('list.minutes')}` : ''}
+    </p>    <h4>${t('list.ingredients')}</h4>
     <ul>${ings}</ul>
     ${r.steps ? `<h4>${t('list.stepsLabel')}</h4><pre class="steps">${escapeHtml(r.steps)}</pre>` : ''}
     <button id="reroll-btn" class="btn-secondary" style="margin-top:1rem;">${t('decide.tryAnother')}</button>
