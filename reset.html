@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Munchoice – Reset password</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍴</text></svg>" />
+</head>
+<body>
+  <main class="container">
+    <div class="lang-switch lang-switch-top">
+      <button class="lang-btn" data-lang="en"><img src="https://flagcdn.com/20x15/gb.png" alt="" /> EN</button>
+      <button class="lang-btn" data-lang="nl"><img src="https://flagcdn.com/20x15/nl.png" alt="" /> NL</button>
+    </div>
+
+    <h1 data-i18n="app.title">🍴 Munchoice</h1>
+
+    <section>
+      <h2 data-i18n="auth.newPasswordHeading">Set a new password</h2>
+      <form id="new-password-form">
+        <input type="password" id="new-password" required data-i18n-placeholder="auth.newPassword" placeholder="New password" />
+        <input type="password" id="confirm-password" required data-i18n-placeholder="auth.confirmPassword" placeholder="Confirm new password" />
+        <button type="submit" data-i18n="auth.updatePassword">Update password</button>
+        <p id="reset-message"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/reset.js"></script>
+</body>
+</html>
