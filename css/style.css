@@ -329,10 +329,12 @@ button:active { transform: translateY(0); }
   background: white;
   transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
 }
-.recipe:hover {
-  transform: translateY(-2px);
-  border-color: var(--c-secondary);
-  box-shadow: var(--shadow-md);
+@media (hover: hover) {
+  .recipe:hover {
+    transform: translateY(-2px);
+    border-color: var(--c-secondary);
+    box-shadow: var(--shadow-md);
+  }
 }
 .recipe-header {
   display: flex;
@@ -773,7 +775,6 @@ button:active { transform: translateY(0); }
 }
 .picker-card:hover {
   border-color: var(--c-secondary);
-  transform: translateY(-1px);
 }
 .picker-card input { margin-top: 0.2rem; flex-shrink: 0; }
 .picker-on {
@@ -819,7 +820,9 @@ button:active { transform: translateY(0); }
   cursor: pointer;
   min-height: 0;
 }
-.shopping-item:hover { background: white; }
+@media (hover: hover) {
+  .shopping-item:hover { background: white; }
+}
 .shopping-item input {
   flex-shrink: 0;
   width: 18px;
