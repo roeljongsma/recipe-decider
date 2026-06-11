@@ -58,11 +58,11 @@ function renderParsed() {
         <th></th>
       </tr></thead>
       <tbody>
-        ${parsedIngredients.map((ing, i) => `
+${parsedIngredients.map((ing, i) => `
           <tr>
-            <td><input type="text" value="${escapeHtml(ing.amount)}" data-i="${i}" data-field="amount" /></td>
-            <td><input type="text" value="${escapeHtml(ing.unit)}" data-i="${i}" data-field="unit" /></td>
-            <td><input type="text" value="${escapeHtml(ing.name)}" data-i="${i}" data-field="name" /></td>
+            <td data-label="${t('parsed.amount')}"><input type="text" value="${escapeHtml(ing.amount)}" data-i="${i}" data-field="amount" /></td>
+            <td data-label="${t('parsed.unit')}"><input type="text" value="${escapeHtml(ing.unit)}" data-i="${i}" data-field="unit" /></td>
+            <td data-label="${t('parsed.name')}"><input type="text" value="${escapeHtml(ing.name)}" data-i="${i}" data-field="name" /></td>
             <td><button type="button" class="btn-tiny" data-remove="${i}">✕</button></td>
           </tr>
         `).join('')}
