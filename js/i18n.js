@@ -5,8 +5,8 @@
 const translations = {
   en: {
     // Top bar / general
-    'app.title': '🍽️ Recipe Decider',
-    'app.tagline': 'Your personal recipe collection & meal decider.',
+    'app.title': '🍴 Munchoice',
+    'app.tagline': 'Pick what to munch — from your own recipe stash.',
     'btn.logout': 'Logout',
 
     // Auth (index.html)
@@ -93,8 +93,8 @@ const translations = {
   },
 
   nl: {
-    'app.title': '🍽️ Recept Beslisser',
-    'app.tagline': 'Jouw persoonlijke receptenverzameling & maaltijdkiezer.',
+    'app.title': '🍴 Munchoice',
+    'app.tagline': 'Kies wat je gaat eten — uit je eigen receptenstash.',
     'btn.logout': 'Uitloggen',
 
     'auth.heading': 'Inloggen of registreren',
