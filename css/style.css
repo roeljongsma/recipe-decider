@@ -1,24 +1,10 @@
-html {
-  overflow-y: scroll;
-}
 
 /* =================================================
    MUNCHOICE – Playful & Bold theme
    ================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
-
 /* Reserve space for the custom fonts so layout doesn't shift when they load */
-@font-face {
-  font-family: 'Fredoka';
-  size-adjust: 100%;
-  ascent-override: 95%;
-}
-@font-face {
-  font-family: 'Quicksand';
-  size-adjust: 100%;
-  ascent-override: 95%;
-}
+
 :root {
   --c-bg: #fff8ec;
   --c-bg-alt: #fff3df;
