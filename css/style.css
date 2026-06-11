@@ -878,3 +878,14 @@ button:active { transform: translateY(0); }
   .shopping-from { display: none; }
   .shopping-item { background: transparent; padding: 0.2rem 0; }
 }
+
+/* Reduce browser focus-ring repaints on form controls */
+.picker-card input[type="checkbox"]:focus,
+.shopping-item input[type="checkbox"]:focus {
+  outline: none;
+}
+.picker-card input[type="checkbox"]:focus-visible,
+.shopping-item input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--c-secondary);
+  outline-offset: 2px;
+}
