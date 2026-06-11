@@ -51,14 +51,27 @@ body {
   font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
   margin: 0;
   background: var(--c-bg);
+  color: var(--c-text);
+  line-height: 1.5;
+  font-size: 16px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Decorative gradient on a separate layer that doesn't repaint with content */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image:
     radial-gradient(circle at 10% 5%, rgba(255,209,102,0.18) 0, transparent 35%),
     radial-gradient(circle at 95% 90%, rgba(167,139,250,0.15) 0, transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(6,214,160,0.08) 0, transparent 50%);
-  background-attachment: fixed;
-  color: var(--c-text);
-  line-height: 1.5;
-  font-size: 16px;
+  /* Force this onto its own GPU layer so checkbox clicks don't trigger a repaint */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 h1, h2, h3, h4 {
