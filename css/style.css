@@ -784,36 +784,68 @@ button:active { transform: translateY(0); }
   margin: 0.3rem 0;
 }
 .shopping-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 0.75rem;
+  gap: 0.5rem 0.75rem;
+  padding: 0.4rem 0.75rem;
   background: var(--c-bg-alt);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  flex-wrap: wrap;
+  min-height: 0;
 }
 .shopping-item:hover { background: white; }
-.shopping-item input { flex-shrink: 0; }
+.shopping-item input {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
 .shopping-item input:checked ~ .shopping-name {
   text-decoration: line-through;
   color: var(--c-muted);
 }
 .shopping-name {
   font-weight: 600;
+  text-align: left;
 }
 .shopping-amounts {
   background: white;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.6rem;
   border-radius: var(--radius-pill);
   font-size: 0.85rem;
   color: var(--c-text);
+  white-space: nowrap;
+  justify-self: end;
 }
 .shopping-from {
   font-size: 0.75rem;
   color: var(--c-muted);
   font-style: italic;
-  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+/* Mobile: stack the From line below */
+@media (max-width: 640px) {
+  .shopping-item {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "check name amount"
+      ".     from from";
+    gap: 0.25rem 0.6rem;
+    padding: 0.5rem 0.7rem;
+  }
+  .shopping-item input { grid-area: check; }
+  .shopping-name { grid-area: name; }
+  .shopping-amounts { grid-area: amount; }
+  .shopping-from {
+    grid-area: from;
+    max-width: none;
+    font-size: 0.7rem;
+  }
 }
 
 /* Print styles */
