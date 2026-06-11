@@ -3,6 +3,7 @@ const formHeading = document.querySelector('#recipe-form').closest('section').qu
 const titleInput = document.getElementById('recipe-title');
 const servingsInput = document.getElementById('recipe-servings');
 const stepsInput = document.getElementById('recipe-steps');
+const cookTimeInput = document.getElementById('recipe-cooktime');
 const pasteArea = document.getElementById('ingredients-paste');
 const parseBtn = document.getElementById('parse-btn');
 const parsedDiv = document.getElementById('parsed-ingredients');
@@ -106,7 +107,8 @@ function showMessage(text, isError = true) {
 function setEditMode(recipe) {
   editingRecipeId = recipe.id;
   titleInput.value = recipe.title || '';
-  servingsInput.value = recipe.servings || 2;
+servingsInput.value = recipe.servings || 2;
+  cookTimeInput.value = recipe.cook_time_minutes || '';
   stepsInput.value = recipe.steps || '';
   pasteArea.value = '';
 
@@ -143,8 +145,9 @@ function setEditMode(recipe) {
 
 function exitEditMode() {
   editingRecipeId = null;
-  recipeForm.reset();
+recipeForm.reset();
   servingsInput.value = 2;
+  cookTimeInput.value = '';
   parsedIngredients = [];
   parsedDiv.innerHTML = '';
   formHeading.textContent = t('recipe.addHeading');
@@ -162,7 +165,9 @@ function exitEditMode() {
 recipeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = titleInput.value.trim();
-  const servings = parseInt(servingsInput.value, 10);
+const servings = parseInt(servingsInput.value, 10);
+  const cookTimeRaw = cookTimeInput.value.trim();
+  const cookTime = cookTimeRaw === '' ? null : parseInt(cookTimeRaw, 10);
   const steps = stepsInput.value.trim();
 
   if (!title) { showMessage(t('recipe.titleMissing')); return; }
@@ -190,9 +195,9 @@ recipeForm.addEventListener('submit', async (e) => {
     // ===== CREATE NEW RECIPE =====
     showMessage(t('recipe.saving'), false);
 
-    const { data: recipeData, error: recipeError } = await supabaseClient
+const { data: recipeData, error: recipeError } = await supabaseClient
       .from('recipes')
-      .insert({ user_id: userId, title, servings, steps })
+      .insert({ user_id: userId, title, servings, steps, cook_time_minutes: cookTime })
       .select()
       .single();
 
@@ -206,11 +211,10 @@ recipeForm.addEventListener('submit', async (e) => {
     // ===== UPDATE EXISTING RECIPE =====
     showMessage(t('list.updating'), false);
 
-    const { error: updErr } = await supabaseClient
+const { error: updErr } = await supabaseClient
       .from('recipes')
-      .update({ title, servings, steps, updated_at: new Date().toISOString() })
+      .update({ title, servings, steps, cook_time_minutes: cookTime, updated_at: new Date().toISOString() })
       .eq('id', editingRecipeId);
-    if (updErr) { showMessage(updErr.message); return; }
 
     // Replace ingredients: delete old, insert new
     const { error: delErr } = await supabaseClient
@@ -270,8 +274,7 @@ async function loadRecipes() {
   const { data: recipes, error } = await supabaseClient
     .from('recipes')
     .select(`
-      id, title, servings, steps, created_at,
-      recipe_ingredients (
+id, title, servings, steps, cook_time_minutes, created_at,      recipe_ingredients (
         amount, unit, position,
         ingredients ( id, name, category )
       )
@@ -318,7 +321,10 @@ function renderRecipes() {
             <button class="btn-tiny" data-delete="${r.id}">${t('list.delete')}</button>
           </div>
         </div>
-        <p class="recipe-meta">${t('list.serves')} ${r.servings || '?'}</p>
+<p class="recipe-meta">
+          ${t('list.serves')} ${r.servings || '?'}
+          ${r.cook_time_minutes ? ` · ⏱️ ${r.cook_time_minutes} ${t('list.minutes')}` : ''}
+        </p>
         <details>
           <summary>${t('list.ingredients')} (${(r.recipe_ingredients || []).length})</summary>
           <ul>${ings}</ul>
