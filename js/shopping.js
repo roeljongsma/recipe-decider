@@ -17,6 +17,61 @@ function escapeHtml(s) {
   return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// Try to compute a total when all entries use the same unit and have parseable numeric amounts.
+// Otherwise just join with " + ".
+function computeAmountsText(entries) {
+  // Build the parts list, e.g. ["500 g", "200 g"]
+  const parts = entries
+    .map(e => [e.amount, e.unit].filter(Boolean).join(' ').trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) return '';
+  if (parts.length === 1) return parts[0];
+
+  // Try to total: all entries must have the same (lowercased) unit and a numeric amount
+  const unit = (entries[0].unit || '').trim().toLowerCase();
+  let canTotal = true;
+  let total = 0;
+
+  for (const e of entries) {
+    const u = (e.unit || '').trim().toLowerCase();
+    if (u !== unit) { canTotal = false; break; }
+    const num = parseAmount(e.amount);
+    if (num === null) { canTotal = false; break; }
+    total += num;
+  }
+
+  const joined = parts.join(' + ');
+  if (canTotal && total > 0) {
+    // Format total nicely: drop trailing zeros
+    const totalStr = formatNumber(total) + (unit ? ' ' + entries[0].unit : '');
+    return `${joined} (= ${totalStr})`;
+  }
+  return joined;
+}
+
+function parseAmount(amount) {
+  if (!amount) return null;
+  const s = String(amount).trim().replace(',', '.');
+  // Handle simple fractions like "1/2"
+  if (/^\d+\/\d+$/.test(s)) {
+    const [a, b] = s.split('/').map(Number);
+    return b ? a / b : null;
+  }
+  // Handle mixed numbers like "1 1/2"
+  const mixed = s.match(/^(\d+)\s+(\d+)\/(\d+)$/);
+  if (mixed) {
+    return parseInt(mixed[1], 10) + parseInt(mixed[2], 10) / parseInt(mixed[3], 10);
+  }
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+
+function formatNumber(n) {
+  // Round to 2 decimals, strip trailing zeros
+  return parseFloat(n.toFixed(2)).toString();
+}
+
 async function loadRecipes() {
   const { data, error } = await supabaseClient
     .from('recipes')
@@ -130,10 +185,7 @@ function buildList() {
       <h3>${t('cat.' + cat) || cat}</h3>
       <ul class="shopping-list">
         ${grouped[cat].map(item => {
-          const amountsText = item.entries
-            .map(e => [e.amount, e.unit].filter(Boolean).join(' '))
-            .filter(Boolean)
-            .join(' + ');
+const amountsText = computeAmountsText(item.entries);
           const recipeNames = [...new Set(item.entries.map(e => e.recipeTitle))].join(', ');
           return `
             <li>
