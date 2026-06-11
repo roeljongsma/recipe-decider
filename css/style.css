@@ -702,3 +702,19 @@ button:active { transform: translateY(0); }
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Share modal */
+.share-link-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  flex-wrap: wrap;
+}
+.share-link-row input {
+  flex: 1;
+  min-width: 200px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  background: var(--c-bg-alt);
+}
+.share-link-row button { white-space: nowrap; }
