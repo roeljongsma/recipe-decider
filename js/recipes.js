@@ -384,3 +384,47 @@ window.addEventListener('langChanged', () => {
 });
 
 setTimeout(loadRecipes, 300);
+
+// ============================================
+// SHARE MODAL
+// ============================================
+function openShareModal(recipeId) {
+  const url = `${window.location.origin}/shared.html?id=${recipeId}`;
+
+  // Create modal on the fly
+  let modal = document.getElementById('share-modal');
+  if (modal) modal.remove();
+
+  modal = document.createElement('div');
+  modal.id = 'share-modal';
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <button class="modal-close" id="share-close">✕</button>
+      <h2>${t('share.heading')}</h2>
+      <p>${t('share.description')}</p>
+      <div class="share-link-row">
+        <input type="text" id="share-url" readonly value="${url}" />
+        <button id="copy-share-btn">${t('share.copyBtn')}</button>
+      </div>
+      <p id="share-feedback" class="hint"></p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('share-close').addEventListener('click', () => modal.remove());
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+
+  document.getElementById('copy-share-btn').addEventListener('click', async () => {
+    const input = document.getElementById('share-url');
+    input.select();
+    try {
+      await navigator.clipboard.writeText(input.value);
+      document.getElementById('share-feedback').textContent = t('share.copied');
+      document.getElementById('share-feedback').style.color = '#10b981';
+    } catch (err) {
+      document.execCommand('copy'); // fallback
+      document.getElementById('share-feedback').textContent = t('share.copied');
+    }
+  });
+}
