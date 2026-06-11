@@ -21,16 +21,32 @@
     <h1 data-i18n="app.title">🍽️ Recipe Decider</h1>
     <p data-i18n="app.tagline">Your personal recipe collection & meal decider.</p>
 
-    <section id="auth-section">
+<section id="auth-section">
       <h2 data-i18n="auth.heading">Login or Sign up</h2>
       <form id="auth-form">
         <input type="email" id="email" required data-i18n-placeholder="auth.email" placeholder="Email" />
         <input type="password" id="password" required data-i18n-placeholder="auth.password" placeholder="Password" />
-<div class="button-row">
-  <button type="submit" id="login-btn" data-i18n="auth.login">Login</button>
-  <button type="button" id="signup-btn" data-i18n="auth.signup">Sign up</button>
-</div>
+        <div class="button-row">
+          <button type="submit" id="login-btn" data-i18n="auth.login">Login</button>
+          <button type="button" id="signup-btn" data-i18n="auth.signup">Sign up</button>
+        </div>
         <p id="auth-message"></p>
+        <p style="text-align:center;margin:0;">
+          <a href="#" id="show-reset-link" data-i18n="auth.forgotPassword">Forgot password?</a>
+        </p>
+      </form>
+    </section>
+
+    <section id="reset-section" style="display:none;">
+      <h2 data-i18n="auth.resetHeading">Reset your password</h2>
+      <p data-i18n="auth.resetEmailLabel">Enter your email — we'll send a reset link.</p>
+      <form id="reset-form">
+        <input type="email" id="reset-email" required data-i18n-placeholder="auth.email" placeholder="Email" />
+        <button type="submit" data-i18n="auth.sendReset">Send reset link</button>
+        <p id="reset-message"></p>
+        <p style="text-align:center;margin:0;">
+          <a href="#" id="back-to-login-link" data-i18n="auth.backToLogin">← Back to login</a>
+        </p>
       </form>
     </section>
   </main>
