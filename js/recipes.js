@@ -316,7 +316,8 @@ function renderRecipes() {
       <article class="recipe">
         <div class="recipe-header">
           <h3>${escapeHtml(r.title)}</h3>
-          <div class="recipe-actions">
+<div class="recipe-actions">
+            <button class="btn-tiny" data-share="${r.id}">${t('list.share')}</button>
             <button class="btn-tiny" data-edit="${r.id}">${t('list.edit')}</button>
             <button class="btn-tiny" data-delete="${r.id}">${t('list.delete')}</button>
           </div>
@@ -345,6 +346,14 @@ function renderRecipes() {
     });
   });
 
+// Wire share
+  recipesList.querySelectorAll('button[data-share]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.share;
+      openShareModal(id);
+    });
+  });
+  
   // Wire edit
   recipesList.querySelectorAll('button[data-edit]').forEach(btn => {
     btn.addEventListener('click', () => {
