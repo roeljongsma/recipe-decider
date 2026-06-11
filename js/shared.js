@@ -12,8 +12,7 @@ async function loadShared() {
     return;
   }
 
-  const { data, error } = await supabaseClient.rpc('get_shared_recipe', { recipe_id_input: parseInt(id, 10) });
-
+const { data, error } = await supabaseClient.rpc('get_shared_recipe', { recipe_id_input: String(id) });
   if (error || !data) {
     sharedDiv.innerHTML = `<p class="hint">${t('shared.notFound')}</p>`;
     return;
