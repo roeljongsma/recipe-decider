@@ -127,11 +127,18 @@ function renderPicker() {
 
 selectAllBtn.addEventListener('click', () => {
   allRecipes.forEach(r => selectedRecipeIds.add(r.id));
-  renderPicker();
+  // Update existing DOM in place — no full re-render
+  pickerDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = true;
+    cb.closest('.picker-card').classList.add('picker-on');
+  });
 });
 deselectAllBtn.addEventListener('click', () => {
   selectedRecipeIds.clear();
-  renderPicker();
+  pickerDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.picker-card').classList.remove('picker-on');
+  });
 });
 
 generateBtn.addEventListener('click', () => {
