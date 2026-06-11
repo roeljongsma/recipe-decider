@@ -767,7 +767,6 @@ button:active { transform: translateY(0); }
   background: linear-gradient(135deg, #fff5cc 0%, #ffe8a3 100%);
   border-color: var(--c-accent-3);
 }
-}
 .picker-info {
   display: flex;
   flex-direction: column;
@@ -821,6 +820,8 @@ button:active { transform: translateY(0); }
 .shopping-name {
   font-weight: 600;
   text-align: left;
+  /* Reserve a stable line-height so toggling line-through doesn't shift height */
+  line-height: 1.5;
 }
 .shopping-amounts {
   background: white;
